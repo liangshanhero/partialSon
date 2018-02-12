@@ -10,11 +10,11 @@ import java.util.Map;
 import java.util.Set;
 import com.google.gson.Gson;
 
-import cn.edu.scau.cmi.hombio.partialJson.PSonh;
+import cn.edu.scau.cmi.hombio.partialJson.Pson;
 
 
 public class Test {
-	static PSonh hombioSon = new PSonh();
+	static Pson hombioSon = new Pson();
 
 	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
 

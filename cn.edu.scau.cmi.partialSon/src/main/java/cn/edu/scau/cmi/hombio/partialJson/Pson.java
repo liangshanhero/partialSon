@@ -18,7 +18,7 @@ import net.sf.json.JSONObject;
  *
  */
 
-public class PSonh 
+public class Pson 
 {
     public enum Flag{
 //    	原始对象，引用对象，
