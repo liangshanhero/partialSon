@@ -8,25 +8,27 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import com.google.gson.Gson;
-
 import cn.edu.scau.cmi.hombio.partialJson.PSon;
-
 
 public class Test {
 	static PSon hombioSon = new PSon();
 
 	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
 
+		testNull();
+		testBasicType();
 		testCompositeObjectSet();
 	}
 
 	private static void testNull() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("");
+		System.out.println("测试null类型");
 		System.out.println(hombioSon.toPson(null, PSon.Flag.PSONING));
 	}
 
 	private static void testBasicType() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("");
 		System.out.println("测试基本类型");
 		int a = 1;
 		System.out.println(hombioSon.toPson(a, PSon.Flag.PSONING));
@@ -45,6 +47,7 @@ public class Test {
 	}
 
 	private static void testWrapperObject() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("");
 		System.out.println("测试包装类型");
 		Integer a = new Integer(111);
 		System.out.println(hombioSon.toPson(a, PSon.Flag.PSONING));
@@ -62,7 +65,8 @@ public class Test {
 		System.out.println(hombioSon.toPson(g, PSon.Flag.PSONING));
 	}
 
-	private static void testListObject() throws IllegalArgumentException, IllegalAccessException {
+	private static void testList() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("");
 		System.out.println("测试List");
 		List<Integer> list = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
@@ -73,6 +77,7 @@ public class Test {
 	}
 
 	private static void testBasicObject() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("");
 		System.out.println("测试基本对象");
 		String str = "This is a string";
 		System.out.println(hombioSon.toPson(str, PSon.Flag.PSONING));
@@ -86,6 +91,7 @@ public class Test {
 	}
 
 	private static void testArray() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("");
 		System.out.println("测试数组");
 		String[] strArray = { "a", "b", "c", "d", "e", "f" };
 		System.out.println(hombioSon.toPson(strArray, PSon.Flag.PSONING));
@@ -100,6 +106,7 @@ public class Test {
 	}
 
 	private static void testCompositeObject() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("");
 		System.out.println("测试组合对象");
 		Student stu = new Student();
 		System.out.println(hombioSon.toPson(stu, PSon.Flag.PSONING));
@@ -110,6 +117,7 @@ public class Test {
 	}
 
 	private static void testCycleCompositeObject() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("");
 		System.out.println("测试含有循环链的组合对象");
 		Student student = new Student();
 		Teacher teacher = new Teacher();
@@ -122,6 +130,7 @@ public class Test {
 	}
 
 	private static void testCompositeObjectSet() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("");
 		System.out.println("测试Set和map");
 		Set<Student> students = new HashSet<>();
 		for (int i = 0; i < 10; i++) {
@@ -141,6 +150,7 @@ public class Test {
 	}
 
 	private static void testCompositeObjectWithArray() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("");
 		System.out.println("测试含有数组的组合对象");
 		Student stu = new Student();
 		System.out.println(hombioSon.toPson(stu, PSon.Flag.PSONING));
@@ -155,6 +165,7 @@ public class Test {
 	}
 
 	private static void testCompositeObjectWithCollection() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("");
 		System.out.println("测试含有集合的组合对象");
 		Teacher teacher = new Teacher();
 		System.out.println(hombioSon.toPson(teacher, PSon.Flag.PSONING));
@@ -178,6 +189,7 @@ public class Test {
 	}
 
 	private static void testMutiDimensionArray() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("");
 		System.out.println("测试多维数组");
 		String[][] str = new String[2][3];
 		str[0] = new String[3];

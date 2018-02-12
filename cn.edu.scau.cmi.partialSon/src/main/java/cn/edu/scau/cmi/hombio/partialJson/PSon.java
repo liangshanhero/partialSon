@@ -29,7 +29,7 @@ public class PSon
     public <T extends Object> T fromPson(String partialJson, Class<T> clazz) {
     	return new Gson().fromJson(partialJson, clazz);
     }
-//    将对象转换为Json对象
+//    将对象转换为Json对象，想办法去掉flag标记
     public String toPson(Object object,Flag flag) throws IllegalArgumentException, IllegalAccessException {
 //    	***集合类Pson化***
     	if(object instanceof Collection) {
@@ -139,9 +139,9 @@ public class PSon
 				}
 			} catch (Exception exception) {
 				// 这里开始Json化组合对象
-				// 1. 先json化基本类型对象
+				// 1. 先json化基本类型对象，比如int, boolean等？？？
 				StringBuilder psonStringBuilder = new StringBuilder(getBasicTypeJson(object));
-				// 2. 再json化基本对象
+				// 2. 再json化基本对象，比如说student等对象？？？
 				String basicObjectJson = "";
 				Map<String, Object> map = getNotBasicTypeMap(object);
 				// json化最外层组合对象中的基本对象
