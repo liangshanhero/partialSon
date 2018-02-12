@@ -302,6 +302,4 @@ public class HombioJson
 		default:return false;
 		}
 	}
-	
-
 }
