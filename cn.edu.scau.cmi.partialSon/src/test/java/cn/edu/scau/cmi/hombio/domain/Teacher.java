@@ -1,4 +1,4 @@
-package com.hombio.PartialJson;
+package cn.edu.scau.cmi.hombio.domain;
 
 import java.util.Calendar;
 import java.util.List;
