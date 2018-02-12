@@ -18,160 +18,150 @@ import net.sf.json.JSONObject;
  *
  */
 
-public class PSon 
+public class PartialSonUtil 
 {
     public enum Flag{
     	FIRST_TIME,SECOND_TIME,BASIC_OBJECT_1,BASIC_OBJECT_2;
     }
 
-//    将Pson对象封装为普通对象，可以用来在界面中使用。
-    public <T extends Object> T fromPson(String partialJson, Class<T> clazz) {
+    public <T extends Object> T fromPartialJson(String partialJson, Class<T> clazz) {
     	return new Gson().fromJson(partialJson, clazz);
     }
-//    将对象转换为Json对象
-    public String toPson(Object object,Flag flag) throws IllegalArgumentException, IllegalAccessException {
-//    	***集合类Pson化***
+    
+    public String toPartialJson(Object object,Flag flag) throws IllegalArgumentException, IllegalAccessException {
+    	//判断是否为集合类
     	if(object instanceof Collection) {
 			@SuppressWarnings("unchecked")
 			Collection<Object> collection = (Collection<Object>)object;
-			StringBuilder psonStringBuilder = new StringBuilder();
-			psonStringBuilder.append("[");
+			StringBuilder partialJsonStringBuilder = new StringBuilder();
+			partialJsonStringBuilder.append("[");
 			collection.forEach(new Consumer<Object>() {
 				public void accept(Object object) {
 					String objectJson;
 					try {
-						objectJson = toPson(object, flag);
-						psonStringBuilder.append(objectJson).append(",");
+						objectJson = toPartialJson(object, flag);
+						partialJsonStringBuilder.append(objectJson).append(",");
 					} catch (IllegalArgumentException | IllegalAccessException e) {
 						e.printStackTrace();
 					}
 				};
 			});
-			if(psonStringBuilder.length()>1) {
-				psonStringBuilder.deleteCharAt(psonStringBuilder.length()-1);
+			if(partialJsonStringBuilder.length()>1) {
+				partialJsonStringBuilder.deleteCharAt(partialJsonStringBuilder.length()-1);
 			}
-			psonStringBuilder.append("]");
-			return psonStringBuilder.toString();
-		}
-//    	***Map对象***
-    	
-    	else if(object instanceof Map) {
+			partialJsonStringBuilder.append("]");
+			return partialJsonStringBuilder.toString();
+		}else if(object instanceof Map) {
 			StringBuilder partialJsonStringBuilder = new StringBuilder();
 			partialJsonStringBuilder.append("{");
 			@SuppressWarnings("unchecked")
 			Map<Object,Object> map = (Map<Object,Object>)object;
 			for(Object key : map.keySet()) {
 				Object value = map.get(key);
-				partialJsonStringBuilder.append(toPson(key, flag)).append(":").append(toPson(value, flag)).append(",");
+				partialJsonStringBuilder.append(toPartialJson(key, flag)).append(":").append(toPartialJson(value, flag)).append(",");
 			}
 			if(partialJsonStringBuilder.length()>1) {
 				partialJsonStringBuilder.deleteCharAt(partialJsonStringBuilder.length()-1);
 			}
 			partialJsonStringBuilder.append("}");
 			return partialJsonStringBuilder.toString();
-		}
-//    	***Array类型***
-    	else if(object!=null&&object.getClass().isArray()) {
-			StringBuilder psonStringBuilder = new StringBuilder();
-			psonStringBuilder.append("[");
+		}else if(object!=null&&object.getClass().isArray()) {
+			StringBuilder partialJsonStringBuilder = new StringBuilder();
+			partialJsonStringBuilder.append("[");
 			for(int i=0; i<Array.getLength(object);i++) {
 				Object arrayi = Array.get(object, i);
 				String objectJson;
 				try {
-					objectJson = toPson(arrayi, flag);
+					objectJson = toPartialJson(arrayi, flag);
 //					if(!objectJson.equals("{}")&&!objectJson.equals("null")) {
 //						partialJsonStringBuilder.append(objectJson).append(",");
 //					}
-					psonStringBuilder.append(objectJson).append(",");
+					partialJsonStringBuilder.append(objectJson).append(",");
 				} catch (IllegalArgumentException | IllegalAccessException e) {
 					e.printStackTrace();
 				}
 			}
-			if(psonStringBuilder.length()>1) {
-				psonStringBuilder.deleteCharAt(psonStringBuilder.length()-1);
+			if(partialJsonStringBuilder.length()>1) {
+				partialJsonStringBuilder.deleteCharAt(partialJsonStringBuilder.length()-1);
 			}
-			psonStringBuilder.append("]");
-			return psonStringBuilder.toString();
-		}
-    	
-//    	***基本类型对象***
-    	
-    	else {
+			partialJsonStringBuilder.append("]");
+			return partialJsonStringBuilder.toString();
+		}else {
 			//这里开始处理基本对象（即为基本数据类型、包装类、String和只含这些类型属性的对象）
 			try {
-				// 先判断是否存在循环链
-				if (object instanceof Calendar) {
-					if (flag.equals(Flag.BASIC_OBJECT_2)) {
+				//先判断是否存在循环链
+				if(object instanceof Calendar) {
+					if(flag.equals(Flag.BASIC_OBJECT_2)){
 						return "null";
-					} else {
+					}else {
 						return new Gson().toJson(object);
 					}
 				}
 				try {
 					JSONObject.fromObject(object);
-				} catch (Exception e) {
-					if (e.getMessage().contains("cycle")) {
-						// 如果在json基本对象时遇到含有循环链的组合对象，直接返回{{}}特殊标识
-						if (flag.equals(Flag.BASIC_OBJECT_1) || flag.equals(Flag.BASIC_OBJECT_2)) {
+				}catch (Exception e) {
+					if(e.getMessage().contains("cycle")) {
+						//如果在json基本对象时遇到含有循环链的组合对象，直接返回{{}}特殊标识
+						if(flag.equals(Flag.BASIC_OBJECT_1)||flag.equals(Flag.BASIC_OBJECT_2)) {
 							return "{{}}";
-						} else {
+						}else {
 							throw new Exception();
 						}
 					}
 				}
-				// 不存在循环链
+				//不存在循环链
 				String preJson = new Gson().toJson(object);
-				if (!preJson.contains("{")) {
+				if(!preJson.contains("{")) {    
 					return preJson;
-				} else if (preJson.lastIndexOf("{") == 0) {
-					if (flag.equals(Flag.BASIC_OBJECT_2)) {
+				}else if(preJson.lastIndexOf("{")==0) {
+					if(flag.equals(Flag.BASIC_OBJECT_2)){
 						return "null";
-					} else {
+					}else {
 						return preJson;
 					}
-				} else {
-					if (flag.equals(Flag.BASIC_OBJECT_1) || flag.equals(Flag.BASIC_OBJECT_2)) {
+				}else {
+					if(flag.equals(Flag.BASIC_OBJECT_1)||flag.equals(Flag.BASIC_OBJECT_2)) {
 						return "{{}}";
-					} else {
+					}else {
 						throw new Exception();
 					}
 				}
-			} catch (Exception exception) {
-				// 这里开始Json化组合对象
-				// 1. 先json化基本类型对象
-				StringBuilder psonStringBuilder = new StringBuilder(getBasicTypeJson(object));
-				// 2. 再json化基本对象
-				String basicObjectJson = "";
-				Map<String, Object> map = getNotBasicTypeMap(object);
-				// json化最外层组合对象中的基本对象
-				if (flag.equals(Flag.FIRST_TIME)) {
-					basicObjectJson = getBasicObjectJson(map, Flag.BASIC_OBJECT_1);
+			}catch(Exception exception) {
+				//这里开始Json化组合对象
+				//1. 先json化基本类型对象
+				StringBuilder partialJsonStringBuilder = new StringBuilder(getBasicTypeJson(object));
+				//2. 再json化基本对象
+				String basicObjhectJson = "";
+				Map <String, Object> map = getNotBasicTypeMap(object);
+				//json化最外层组合对象中的基本对象
+				if(flag.equals(Flag.FIRST_TIME)) {
+					basicObjhectJson = getBasicObjectJson(map,Flag.BASIC_OBJECT_1);
 				}
-				// json化第二层组合对象中的基本对象
-				if (flag.equals(Flag.SECOND_TIME)) {
-					basicObjectJson = getBasicObjectJson(map, Flag.BASIC_OBJECT_2);
+				//json化第二层组合对象中的基本对象
+				if(flag.equals(Flag.SECOND_TIME)) {
+					basicObjhectJson = getBasicObjectJson(map,Flag.BASIC_OBJECT_2);
 				}
-				if (basicObjectJson.length() != 0) {
-					psonStringBuilder.deleteCharAt(psonStringBuilder.length() - 1);
-					if (psonStringBuilder.length() > 1) {
-						psonStringBuilder.append(",").append(basicObjectJson).append("}");
-					} else {
-						psonStringBuilder.append(basicObjectJson).append("}");
+				if(basicObjhectJson.length()!=0) {
+					partialJsonStringBuilder.deleteCharAt(partialJsonStringBuilder.length()-1);
+					if(partialJsonStringBuilder.length()>1) {
+						partialJsonStringBuilder.append(",").append(basicObjhectJson).append("}");
+					}else {
+						partialJsonStringBuilder.append(basicObjhectJson).append("}");
 					}
 				}
-				// 3. 最后json组合对象：第一次时要json化组合对象里的组合对象，第二次不用
-				if (flag.equals(Flag.FIRST_TIME)) {
+				//3. 最后json组合对象：第一次时要json化组合对象里的组合对象，第二次不用
+				if(flag.equals(Flag.FIRST_TIME)) {
 					String secondJson = getSecondJson(map);
-					if (secondJson.length() != 0) {
-						psonStringBuilder.deleteCharAt(psonStringBuilder.length() - 1);
-						if (psonStringBuilder.length() > 1) {
-							psonStringBuilder.append(",").append(secondJson).append("}");
-						} else {
-							psonStringBuilder.append(secondJson).append("}");
+					if(secondJson.length()!=0) {
+						partialJsonStringBuilder.deleteCharAt(partialJsonStringBuilder.length()-1);
+						if(partialJsonStringBuilder.length()>1) {
+							partialJsonStringBuilder.append(",").append(secondJson).append("}");
+						}else {
+							partialJsonStringBuilder.append(secondJson).append("}");
 						}
 					}
 				}
-				return psonStringBuilder.toString();
+				return partialJsonStringBuilder.toString();
 			}
 		}
     }
@@ -182,7 +172,7 @@ public class PSon
     	List<String> keyList = new ArrayList<>();
     	for(String key : map.keySet()) {
     		Object object = map.get(key);
-    		String basicObjectJson = toPson(object, flag);
+    		String basicObjectJson = toPartialJson(object, flag);
     		if(basicObjectJson.lastIndexOf("{")<=0) {
     			keyList.add(key);
     		}
@@ -210,7 +200,7 @@ public class PSon
     	StringBuilder stringBuilder = new StringBuilder();
     	for(String key : map.keySet()) {
     		Object object = map.get(key);
-    		String secondJson = toPson(object, Flag.SECOND_TIME);
+    		String secondJson = toPartialJson(object, Flag.SECOND_TIME);
     		if(!secondJson.equals("null")) {
     			stringBuilder.append("\"").append(key).append("\"").append(":");
     			stringBuilder.append(secondJson).append(",");
@@ -238,8 +228,7 @@ public class PSon
 		}
 		return map;
     }
-  
-//    获取基本类型对象的json字符串，例如int, float，等等，获取这些基本类型对象的json字符串
+    //获取基本类型对象的json字符串
     private String getBasicTypeJson(Object object) throws IllegalArgumentException, IllegalAccessException{
     	Class<? extends Object> classType = object.getClass();
 		Field[] fields = classType.getDeclaredFields();
