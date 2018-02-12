@@ -21,7 +21,8 @@ import net.sf.json.JSONObject;
 public class PSon 
 {
     public enum Flag{
-    	FIRST_TIME,SECOND_TIME,BASIC_OBJECT_1,BASIC_OBJECT_2;
+//    	原始对象，引用对象，
+    	PSONING,REFERENCE,BASIC_OBJECT_1,BASIC_OBJECT_2;
     }
 
 //    将Pson对象封装为普通对象，可以用来在界面中使用。
@@ -144,11 +145,11 @@ public class PSon
 				String basicObjectJson = "";
 				Map<String, Object> map = getNotBasicTypeMap(object);
 				// json化最外层组合对象中的基本对象
-				if (flag.equals(Flag.FIRST_TIME)) {
+				if (flag.equals(Flag.PSONING)) {
 					basicObjectJson = getBasicObjectJson(map, Flag.BASIC_OBJECT_1);
 				}
 				// json化第二层组合对象中的基本对象
-				if (flag.equals(Flag.SECOND_TIME)) {
+				if (flag.equals(Flag.REFERENCE)) {
 					basicObjectJson = getBasicObjectJson(map, Flag.BASIC_OBJECT_2);
 				}
 				if (basicObjectJson.length() != 0) {
@@ -160,7 +161,7 @@ public class PSon
 					}
 				}
 				// 3. 最后json组合对象：第一次时要json化组合对象里的组合对象，第二次不用
-				if (flag.equals(Flag.FIRST_TIME)) {
+				if (flag.equals(Flag.PSONING)) {
 					String secondJson = getSecondJson(map);
 					if (secondJson.length() != 0) {
 						psonStringBuilder.deleteCharAt(psonStringBuilder.length() - 1);
@@ -210,7 +211,7 @@ public class PSon
     	StringBuilder stringBuilder = new StringBuilder();
     	for(String key : map.keySet()) {
     		Object object = map.get(key);
-    		String secondJson = toPson(object, Flag.SECOND_TIME);
+    		String secondJson = toPson(object, Flag.REFERENCE);
     		if(!secondJson.equals("null")) {
     			stringBuilder.append("\"").append(key).append("\"").append(":");
     			stringBuilder.append(secondJson).append(",");
