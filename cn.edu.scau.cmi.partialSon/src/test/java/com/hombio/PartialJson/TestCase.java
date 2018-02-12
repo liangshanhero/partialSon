@@ -5,10 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import cn.edu.scau.cmi.hombio.partialJson.PSon;
+import cn.edu.scau.cmi.hombio.partialJson.PSonh;
 
 public class TestCase {
-	static PSon hombioSon = new PSon();
+	static PSonh hombioSon = new PSonh();
 
 	@Before
 	public void setUp() throws Exception {

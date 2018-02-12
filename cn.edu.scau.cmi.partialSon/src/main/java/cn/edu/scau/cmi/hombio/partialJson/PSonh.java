@@ -18,7 +18,7 @@ import net.sf.json.JSONObject;
  *
  */
 
-public class PSon 
+public class PSonh 
 {
     public enum Flag{
 //    	原始对象，引用对象，
@@ -29,8 +29,19 @@ public class PSon
     public <T extends Object> T fromPson(String partialJson, Class<T> clazz) {
     	return new Gson().fromJson(partialJson, clazz);
     }
+    
+    public String toPson(Object object) {
+    	String result="";
+    	try {
+			result= toPson(object,Flag.PSONING);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return result;
+    }
 //    将对象转换为Json对象，想办法去掉flag标记
-    public String toPson(Object object,Flag flag) throws IllegalArgumentException, IllegalAccessException {
+    private String toPson(Object object,Flag flag) throws IllegalArgumentException, IllegalAccessException {
 //    	***集合类Pson化***
     	if(object instanceof Collection) {
 			@SuppressWarnings("unchecked")
