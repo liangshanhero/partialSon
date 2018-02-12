@@ -18,7 +18,7 @@ import net.sf.json.JSONObject;
  *
  */
 
-public class HombioJson 
+public class PartialSonUtil 
 {
     public enum Flag{
     	FIRST_TIME,SECOND_TIME,BASIC_OBJECT_1,BASIC_OBJECT_2;
