@@ -21,7 +21,7 @@ import net.sf.json.JSONObject;
 public class Pson 
 {
     public enum Flag{
-//    	原始对象，引用对象，
+//    	PSONING客户端调用的偏Json标志；REFERENCE标识引用对象；原始对象，引用对象，
     	PSONING,REFERENCE,BASIC_OBJECT_1,BASIC_OBJECT_2;
     }
 
