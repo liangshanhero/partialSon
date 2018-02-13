@@ -1,4 +1,4 @@
-package cn.edu.scau.cmi.hombio.partialJson;
+package cn.edu.scau.cmi.hombio;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import net.sf.json.JSONObject;
 public class Pson 
 {
     public enum Flag{
-//    	原始对象，引用对象，
+//    	PSONING客户端调用的偏Json标志；REFERENCE标识引用对象；原始对象，引用对象，
     	PSONING,REFERENCE,BASIC_OBJECT_1,BASIC_OBJECT_2;
     }
 

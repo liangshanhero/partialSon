@@ -1,4 +1,4 @@
-package com.hombio.PartialJson;
+package cn.edu.scau.cmi.hombio.testcase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,29 +8,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import com.google.gson.Gson;
 
-import cn.edu.scau.cmi.hombio.partialJson.Pson;
+import cn.edu.scau.cmi.hombio.Pson;
+import cn.edu.scau.cmi.hombio.domain.Course;
+import cn.edu.scau.cmi.hombio.domain.Student;
+import cn.edu.scau.cmi.hombio.domain.Teacher;
 
-
-public class Test {
+public class TestCase {
 	static Pson hombioSon = new Pson();
 
 	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
 
 		testNull();
-		testBasicType();
 		testCompositeObjectSet();
 	}
 
 	private static void testNull() throws IllegalArgumentException, IllegalAccessException {
-		System.out.println("");
-		System.out.println("测试null类型");
 		System.out.println(hombioSon.toPson(null));
 	}
 
 	private static void testBasicType() throws IllegalArgumentException, IllegalAccessException {
-		System.out.println("");
 		System.out.println("测试基本类型");
 		int a = 1;
 		System.out.println(hombioSon.toPson(a));
@@ -49,7 +48,6 @@ public class Test {
 	}
 
 	private static void testWrapperObject() throws IllegalArgumentException, IllegalAccessException {
-		System.out.println("");
 		System.out.println("测试包装类型");
 		Integer a = new Integer(111);
 		System.out.println(hombioSon.toPson(a));
@@ -67,8 +65,7 @@ public class Test {
 		System.out.println(hombioSon.toPson(g));
 	}
 
-	private static void testList() throws IllegalArgumentException, IllegalAccessException {
-		System.out.println("");
+	private static void testListObject() throws IllegalArgumentException, IllegalAccessException {
 		System.out.println("测试List");
 		List<Integer> list = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
@@ -79,7 +76,6 @@ public class Test {
 	}
 
 	private static void testBasicObject() throws IllegalArgumentException, IllegalAccessException {
-		System.out.println("");
 		System.out.println("测试基本对象");
 		String str = "This is a string";
 		System.out.println(hombioSon.toPson(str));
@@ -93,7 +89,6 @@ public class Test {
 	}
 
 	private static void testArray() throws IllegalArgumentException, IllegalAccessException {
-		System.out.println("");
 		System.out.println("测试数组");
 		String[] strArray = { "a", "b", "c", "d", "e", "f" };
 		System.out.println(hombioSon.toPson(strArray));
@@ -108,7 +103,6 @@ public class Test {
 	}
 
 	private static void testCompositeObject() throws IllegalArgumentException, IllegalAccessException {
-		System.out.println("");
 		System.out.println("测试组合对象");
 		Student stu = new Student();
 		System.out.println(hombioSon.toPson(stu));
@@ -119,7 +113,6 @@ public class Test {
 	}
 
 	private static void testCycleCompositeObject() throws IllegalArgumentException, IllegalAccessException {
-		System.out.println("");
 		System.out.println("测试含有循环链的组合对象");
 		Student student = new Student();
 		Teacher teacher = new Teacher();
@@ -131,8 +124,8 @@ public class Test {
 		// System.out.println(new Gson().toJson(student));
 	}
 
+//	测试组合对象集合？？？--by liang zaoqing
 	private static void testCompositeObjectSet() throws IllegalArgumentException, IllegalAccessException {
-		System.out.println("");
 		System.out.println("测试Set和map");
 		Set<Student> students = new HashSet<>();
 		for (int i = 0; i < 10; i++) {
@@ -152,7 +145,6 @@ public class Test {
 	}
 
 	private static void testCompositeObjectWithArray() throws IllegalArgumentException, IllegalAccessException {
-		System.out.println("");
 		System.out.println("测试含有数组的组合对象");
 		Student stu = new Student();
 		System.out.println(hombioSon.toPson(stu));
@@ -167,7 +159,6 @@ public class Test {
 	}
 
 	private static void testCompositeObjectWithCollection() throws IllegalArgumentException, IllegalAccessException {
-		System.out.println("");
 		System.out.println("测试含有集合的组合对象");
 		Teacher teacher = new Teacher();
 		System.out.println(hombioSon.toPson(teacher));
@@ -191,7 +182,6 @@ public class Test {
 	}
 
 	private static void testMutiDimensionArray() throws IllegalArgumentException, IllegalAccessException {
-		System.out.println("");
 		System.out.println("测试多维数组");
 		String[][] str = new String[2][3];
 		str[0] = new String[3];
