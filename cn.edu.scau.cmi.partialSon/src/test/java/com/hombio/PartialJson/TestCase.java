@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import cn.edu.scau.cmi.hombio.partialJson.Pson;
+import cn.edu.scau.cmi.hombio.Pson;
 
 public class TestCase {
 	static Pson hombioSon = new Pson();

@@ -11,11 +11,11 @@ import java.util.Set;
 
 import com.google.gson.Gson;
 
+import cn.edu.scau.cmi.hombio.PartialSon;
+import cn.edu.scau.cmi.hombio.PartialSon.Flag;
 import cn.edu.scau.cmi.hombio.domain.Course;
 import cn.edu.scau.cmi.hombio.domain.Student;
 import cn.edu.scau.cmi.hombio.domain.Teacher;
-import cn.edu.scau.cmi.hombio.partialJson.PartialSon;
-import cn.edu.scau.cmi.hombio.partialJson.PartialSon.Flag;
 
 public class TestCase {
 	static PartialSon hombioSon = new PartialSon();
