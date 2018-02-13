@@ -1,4 +1,4 @@
-package cn.edu.scau.cmi.hombio.partialJson;
+package cn.edu.scau.cmi.hombio;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
