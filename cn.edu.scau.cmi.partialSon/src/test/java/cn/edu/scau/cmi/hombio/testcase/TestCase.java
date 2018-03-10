@@ -17,6 +17,7 @@ import cn.edu.scau.cmi.hombio.domain.Student;
 import cn.edu.scau.cmi.hombio.domain.Teacher;
 
 public class TestCase {
+	
 	static Pson hombioSon = new Pson();
 
 	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
