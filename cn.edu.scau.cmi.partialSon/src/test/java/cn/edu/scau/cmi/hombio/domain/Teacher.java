@@ -47,6 +47,6 @@ public class Teacher {
 	}
 	
 	public Teacher() {
-		setName("梁早清");
+		setName("������");
 	}
 }
